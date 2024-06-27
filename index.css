@@ -1,0 +1,36 @@
+body{
+    background-color: #000000;
+    color: #ffffff ;
+}
+.centered{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.text-center{
+    text-align: center;
+}
+#sudoku{
+    display: table;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    gap: 1px;
+    border: 1px solid #ffffff;
+    width: 58%;
+    margin: auto;
+}
+#TFirstRow{
+    display:  table-row;
+    width: 10%;
+}
+#TFirstRow input{
+    width: 50px;
+}
+#TSecondRow{
+    display:  table-row;
+    width: 10%;
+}
+#TSecondRow input{
+    width: 50px;
+}
