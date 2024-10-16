@@ -123,14 +123,47 @@ function LineSelect(Line){
 }
 
 function NoteTaking(Area) {
+    var horizontalTempNote = {"Line1":[],"Line2":[],"Line3":[],"Line4":[],"Line5":[],"Line6":[],"Line7":[],"Line8":[],"Line9":[]};
+    let noteParse = JSON.parse(note)
     if(Area == "Horizontal"){
         let horizontal = HorizontalLine
         for(let i = 1; i <= 9; i++){
+            let filtered = horizontal["Line" + i].filter((n1) => n1 != "0")
+            filtered = filtered.map((x) => parseInt(x))
+            let resultFiltered = numbers.map((n2) => {
+                if(!filtered.includes(n2)){
+                    return n2
+                }
+            })
             for(let k = 0; k <= 8; k++){
                 let selected = horizontal["Line" + i][k]
                 if(selected == "0"){
-                    parseInt(horizontal["Line" + i])
-                    
+                    noteParse[rows[i - 1] + cols[k]][0] = resultFiltered[k]
+                    horizontalTempNote["Line" + i] = resultFiltered
+                }
+            }
+        }
+    }else if(Area == "Vertical"){
+        let vertical = VertialLine
+        for(let i = 1; i <= 9; i++){
+            let filtered = vertical["Line" + i].filter((n1) => n1 != "0")
+            filtered = filtered.map((x) => parseInt(x))
+            let filtered2 = numbers.map((n2) => {
+                if(!filtered.includes(n2)){
+                    return n2
+                }
+            })
+            let resultFiltered = horizontalTempNote["Line" + i].map((n3) => {
+                if(!filtered2.includes(n3)){
+                    return n3
+                }
+            })
+            for(let k = 0; k <= 8; k++){
+                let selected = vertical["Line" + i][k]
+                if(selected == "0"){
+                    console.log(filtered)
+                    console.log(filtered2)
+                    console.log(resultFiltered)
                 }
             }
         }
@@ -142,6 +175,9 @@ getData()
 LineSelect("Horizontal")
 LineSelect("Vertical")
 LineSelect("ThreeThree")
+
+NoteTaking("Horizontal")
+NoteTaking("Vertical")
 
 /*
 // Call this function when you want to get a value
