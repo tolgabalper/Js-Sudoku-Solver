@@ -123,28 +123,31 @@ function LineSelect(Line){
 }
 
 function NoteTaking(Area) {
-    var horizontalTempNote = {"Line1":[],"Line2":[],"Line3":[],"Line4":[],"Line5":[],"Line6":[],"Line7":[],"Line8":[],"Line9":[]};
     let noteParse = JSON.parse(note)
+    let note1 = {"Line1":[],"Line2":[],"Line3":[],"Line4":[],"Line5":[],"Line6":[],"Line7":[],"Line8":[],"Line9":[]};
+    let horizontal = HorizontalLine
+    let vertical = VertialLine
     if(Area == "Horizontal"){
-        let horizontal = HorizontalLine
         for(let i = 1; i <= 9; i++){
             let filtered = horizontal["Line" + i].filter((n1) => n1 != "0")
             filtered = filtered.map((x) => parseInt(x))
+            console.log(filtered)
             let resultFiltered = numbers.map((n2) => {
                 if(!filtered.includes(n2)){
+                    console.log(n2)
                     return n2
                 }
             })
             for(let k = 0; k <= 8; k++){
                 let selected = horizontal["Line" + i][k]
                 if(selected == "0"){
-                    noteParse[rows[i - 1] + cols[k]][0] = resultFiltered[k]
-                    horizontalTempNote["Line" + i] = resultFiltered
+                    note1["Line"+i] = resultFiltered
                 }
             }
         }
+        console.log(noteParse)
+        console.log(note1)
     }else if(Area == "Vertical"){
-        let vertical = VertialLine
         for(let i = 1; i <= 9; i++){
             let filtered = vertical["Line" + i].filter((n1) => n1 != "0")
             filtered = filtered.map((x) => parseInt(x))
@@ -153,17 +156,19 @@ function NoteTaking(Area) {
                     return n2
                 }
             })
-            let resultFiltered = horizontalTempNote["Line" + i].map((n3) => {
-                if(!filtered2.includes(n3)){
-                    return n3
-                }
-            })
+            console.log(filtered2)
             for(let k = 0; k <= 8; k++){
                 let selected = vertical["Line" + i][k]
+                let fK = k + 1
+                let resultFiltered = filtered2.map((n3) => {
+                    let IntHorizontal = horizontal["Line" + fK].map((x) => parseInt(x))
+                    if(!IntHorizontal.includes(n3)){
+                        return n3
+                    }
+                })
                 if(selected == "0"){
-                    console.log(filtered)
-                    console.log(filtered2)
-                    console.log(resultFiltered)
+                    note1["Line" + fK] = resultFiltered
+
                 }
             }
         }
