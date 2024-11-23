@@ -6,3 +6,5 @@
 Sudoku Solver built with JS.
 
 UNDER DEVELOPMENT !!
+
+note: I work on it at school times, development might be slow.
