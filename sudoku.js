@@ -5,7 +5,7 @@ let inputVal = '{"A1":"","A2":"","A3":"","A4":"","A5":"","A6":"","A7":"","A8":""
 let HorizontalLine = {"Line1":[],"Line2":[],"Line3":[],"Line4":[],"Line5":[],"Line6":[],"Line7":[],"Line8":[],"Line9":[]};
 let VertialLine = {"Line1":[],"Line2":[],"Line3":[],"Line4":[],"Line5":[],"Line6":[],"Line7":[],"Line8":[],"Line9":[]};
 let ThreeThree = {"1":[],"2":[],"3":[],"4":[],"5":[],"6":[],"7":[],"8":[],"9":[]};
-let note = '{"A1":[],"A2":[],"A3":[],"A4":[],"A5":[],"A6":[],"A7":[],"A8":[],"A9":[],"B1":[],"B2":[],"B3":[],"B4":[],"B5":[],"B6":[],"B7":[],"B8":[],"B9":[],"C1":[],"C2":[],"C3":[],"C4":[],"C5":[],"C6":[],"C7":[],"C8":[],"C9":[],"D1":[],"D2":[],"D3":[],"D4":[],"D5":[],"D6":[],"D7":[],"D8":[],"D9":[],"E1":[],"E2":[],"E3":[],"E4":[],"E5":[],"E6":[],"E7":[],"E8":[],"E9":[],"F1":[],"F2":[],"F3":[],"F4":[],"F5":[],"F6":[],"F7":[],"F8":[],"F9":[],"G1":[],"G2":[],"G3":[],"G4":[],"G5":[],"G6":[],"G7":[],"G8":[],"G9":[],"H1":[],"H2":[],"H3":[],"H4":[],"H5":[],"H6":[],"H7":[],"H8":[],"H9":[],"I1":[],"I2":[],"I3":[],"I4":[],"I5":[],"I6":[],"I7":[],"I8":[],"I9":[]}';
+let Note = {"horizontal":[],"vertical":[],"three":[]};
 let LineKey = [2, 5, 8]
 
 function getLocalStorageItem(key) {
@@ -122,57 +122,67 @@ function LineSelect(Line){
 
 }
 
-function NoteTaking(Area) {
-    let noteParse = JSON.parse(note)
-    let note1 = {"Line1":[],"Line2":[],"Line3":[],"Line4":[],"Line5":[],"Line6":[],"Line7":[],"Line8":[],"Line9":[]};
+function NoteTaking(Area,  job) {
     let horizontal = HorizontalLine
     let vertical = VertialLine
+    let three = ThreeThree
     if(Area == "Horizontal"){
         for(let i = 1; i <= 9; i++){
             let filtered = horizontal["Line" + i].filter((n1) => n1 != "0")
             filtered = filtered.map((x) => parseInt(x))
-            console.log(filtered)
             let resultFiltered = numbers.map((n2) => {
                 if(!filtered.includes(n2)){
-                    console.log(n2)
                     return n2
                 }
             })
             for(let k = 0; k <= 8; k++){
                 let selected = horizontal["Line" + i][k]
                 if(selected == "0"){
-                    note1["Line"+i] = resultFiltered
+                    Note["horizontal"]["Line"+i] = resultFiltered
                 }
             }
         }
-        console.log(noteParse)
-        console.log(note1)
+        console.log(Note)
     }else if(Area == "Vertical"){
         for(let i = 1; i <= 9; i++){
-            let filtered = vertical["Line" + i].filter((n1) => n1 != "0")
-            filtered = filtered.map((x) => parseInt(x))
-            let filtered2 = numbers.map((n2) => {
-                if(!filtered.includes(n2)){
-                    return n2
-                }
-            })
-            console.log(filtered2)
             for(let k = 0; k <= 8; k++){
                 let selected = vertical["Line" + i][k]
-                let fK = k + 1
-                let resultFiltered = filtered2.map((n3) => {
-                    let IntHorizontal = horizontal["Line" + fK].map((x) => parseInt(x))
-                    if(!IntHorizontal.includes(n3)){
-                        return n3
+                let filtered = vertical["Line" + i].filter((n1) => n1 != "0")
+                filtered = filtered.map((x) => parseInt(x))
+                let filtered2 = numbers.map((n2) => {
+                    if(!filtered.includes(n2)){
+                        return n2
                     }
                 })
                 if(selected == "0"){
-                    note1["Line" + fK] = resultFiltered
-
+                    Note["vertical"]["Line"+i] = filtered2
+                }
+            }
+        }
+    }else if(Area == "ThreeThree"){
+        for(let i = 1; i <= 9; i++){
+            let iS = String(i)
+            console.log(iS)
+            for(let k = 0; k <= 8; k++){
+                let selected = three[iS][k]
+                let filtered = three[iS].filter((n1) => n1 != "0")
+                filtered = filtered.map((x) => parseInt(x))
+                let filtered2 = numbers.map((n2) => {
+                    if(!filtered.includes(n2)){
+                        return n2
+                    }
+                })
+                if(selected == "0"){
+                    Note["three"][iS] = filtered2
+                    console.log(Note)
                 }
             }
         }
     }
+}
+
+function AnswerGen() {
+    
 }
 
 getData()
@@ -183,6 +193,9 @@ LineSelect("ThreeThree")
 
 NoteTaking("Horizontal")
 NoteTaking("Vertical")
+NoteTaking("ThreeThree")
+
+
 
 /*
 // Call this function when you want to get a value
